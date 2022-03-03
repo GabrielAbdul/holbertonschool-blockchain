@@ -11,7 +11,7 @@
 int ec_verify(EC_KEY const *key, uint8_t const *msg,
 			  size_t msglen, sig_t const *sig)
 {
-	if (key == NULL || msg == NULL || sig == NULL)
+	if (key == NULL || msg == NULL || sig == NULL || sig->len == 0)
 		return (0);
 
 	if (ECDSA_verify(0, msg, msglen, sig->sig, sig->len, (EC_KEY *)key) == 0)
