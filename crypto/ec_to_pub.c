@@ -14,7 +14,7 @@ uint8_t *ec_to_pub(EC_KEY const *key, uint8_t pub[EC_PUB_LEN])
 
 	if (key == NULL)
 		return (NULL);
-		
+
 	/* retreive eliptic curve stored in EC_KEY struct*/
 	group = EC_KEY_get0_group(key);
 
