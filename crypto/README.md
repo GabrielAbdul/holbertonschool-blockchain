@@ -1,6 +1,6 @@
 # Crypto
 
-[Back to Holberton School Blockchain](https://github.com/GabrielAbdul/holbertonschool-blockchain)
+:arrow_backward: [holbertonschool-blockchain](https://github.com/GabrielAbdul/holbertonschool-blockchain)
 
 The structure of this repostory looks like this:
 ```
@@ -29,13 +29,13 @@ holbertonschool-blockchain
 │   |    ├── ec_verify-main.c
 │   |    └── sha256-main.c
 |   └── bin
-│       ├── ec_create
-│       ├── ec_from_pub
-│       ├── ec_load
-│       ├── ec_save
-│       ├── ec_sign
-│       ├── ec_to_pub
-│       ├── ec_verify
-│       └── sha256
+│       ├── ec_create-test
+│       ├── ec_from_pub-test
+│       ├── ec_load-test
+│       ├── ec_save-test
+│       ├── ec_sign-test
+│       ├── ec_to_pub-test
+│       ├── ec_verify-test
+│       └── sha256-test
 └── README.md
 ```
