@@ -1,6 +1,6 @@
 # Crypto
 
-:arrow_backward: [holbertonschool-blockchain](https://github.com/GabrielAbdul/holbertonschool-blockchain)
+[:arrow_backward:holbertonschool-blockchain](https://github.com/GabrielAbdul/holbertonschool-blockchain)
 
 The structure of this repostory looks like this:
 ```
