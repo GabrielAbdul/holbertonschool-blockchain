@@ -23,6 +23,7 @@
 #include "../../crypto/hblk_crypto.h"
 #include "provided/endianness.h"
 
+# define KEEP_NODES 0
 /**
  * struct blockchain_s - Blockchain structure
  *
