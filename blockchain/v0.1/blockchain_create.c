@@ -33,11 +33,12 @@ blockchain_t *blockchain_create(void)
 	block->info.difficulty = 0;
 	block->info.timestamp = 1537578000;
 	block->info.nonce = 0;
+	memset(block->info.prev_hash, 0, sizeof(block->info.prev_hash));
+
 	memcpy(&(block->data.buffer), "Holberton School", 16);
 	block->data.len = 16;
 	memcpy(&(block->hash), hash, 256);
 
-	printf("Here\n");
 	if (llist_add_node(blockchain->chain, block, ADD_NODE_FRONT) == -1)
 	{
 		llist_destroy(blockchain->chain, KEEP_NODES, NULL);
