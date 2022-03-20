@@ -20,10 +20,20 @@
 #include <openssl/rsa.h>
 #include <openssl/sha.h>
 
+
 #include "../../crypto/hblk_crypto.h"
 #include "provided/endianness.h"
 
-# define KEEP_NODES 0
+#define HASH \
+"\
+\xc5\x2c\x26\xc8\xb5\x46\x16\x39\
+\x63\x5d\x8e\xdf\x2a\x97\xd4\x8d\
+\x0c\x8e\x00\x09\xc8\x17\xf2\xb1\
+\xd3\xd7\xff\x2f\x04\x51\x58\x03"
+#define TIMESTAMP 1537578000
+#define KEEP_NODES 0
+#define DATA_LEN 16
+#define DATA "Holberton School"
 /**
  * struct blockchain_s - Blockchain structure
  *
