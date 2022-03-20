@@ -32,6 +32,7 @@
 \xd3\xd7\xff\x2f\x04\x51\x58\x03"
 #define TIMESTAMP 1537578000
 #define KEEP_NODES 0
+#define REMOVE_NODES 1
 #define DATA_LEN 16
 #define DATA "Holberton School"
 /**
@@ -103,4 +104,5 @@ blockchain_t *blockchain_create(void);
 block_t *block_create(block_t const *prev,
 					  int8_t const *data, uint32_t data_len);
 void block_destroy(block_t *block);
+void blockchain_destroy(blockchain_t *blockchain);
 #endif /* BLOCKCHAIN_H */
