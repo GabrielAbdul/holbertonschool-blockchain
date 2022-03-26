@@ -35,6 +35,7 @@
 #define REMOVE_NODES 1
 #define DATA_LEN 16
 #define DATA "Holberton School"
+#define BYTE_SIZE 8
 /**
  * struct blockchain_s - Blockchain structure
  *
