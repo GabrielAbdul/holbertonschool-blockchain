@@ -2,6 +2,7 @@
 #define _BLOCKCHAIN_H_
 
 #define BLOCKCHAIN_DATA_MAX 1024
+#define true 1
 
 #include <llist.h>
 #include <stdio.h>
@@ -110,4 +111,6 @@ uint8_t *block_hash(block_t const *block,
 	uint8_t hash_buf[SHA256_DIGEST_LENGTH]);
 int hash_matches_difficulty(uint8_t const hash[SHA256_DIGEST_LENGTH],
 							uint32_t difficulty);
+void block_mine(block_t *);
+int block_is_valid(block_t const *block, block_t const *prev_block);
 #endif /* BLOCKCHAIN_H */
