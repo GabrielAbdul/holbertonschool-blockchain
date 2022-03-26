@@ -119,4 +119,5 @@ uint8_t *block_hash(block_t const *block,
 void serialize_blockchain(int fd, int encoding, blockchain_t const *blockchain);
 void serialize_blocks(int fd, llist_t *list);
 int blockchain_serialize(blockchain_t const *blockchain, char const *path);
+int block_is_valid(block_t const *block, block_t const *prev_block);
 #endif /* BLOCKCHAIN_H */
