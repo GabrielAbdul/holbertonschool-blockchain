@@ -37,6 +37,10 @@
 #define DATA_LEN 16
 #define DATA "Holberton School"
 #define BYTE_SIZE 8
+#define BLOCK_GENERATION_INTERVAL 1
+#define DIFFICULTY_ADJUSTMENT_INTERVAL 5
+#define EXPECTED_TIME_BETWEEN_ADJUSTMENTS \
+(BLOCK_GENERATION_INTERVAL * DIFFICULTY_ADJUSTMENT_INTERVAL)
 /**
  * struct blockchain_s - Blockchain structure
  *
@@ -113,4 +117,5 @@ int hash_matches_difficulty(uint8_t const hash[SHA256_DIGEST_LENGTH],
 							uint32_t difficulty);
 void block_mine(block_t *);
 int block_is_valid(block_t const *block, block_t const *prev_block);
+uint32_t blockchain_difficulty(blockchain_t const *blockchain);
 #endif /* BLOCKCHAIN_H */
