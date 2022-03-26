@@ -3,6 +3,8 @@
 
 #define BLOCKCHAIN_DATA_MAX 1024
 
+#include <unistd.h>
+#include <fcntl.h>
 #include <llist.h>
 #include <stdio.h>
 #include <string.h>
@@ -35,6 +37,13 @@
 #define REMOVE_NODES 1
 #define DATA_LEN 16
 #define DATA "Holberton School"
+#define HBLK_MAGIC "HBLK"
+#define HBLK_VERSION "0.1"
+#define LSB 1
+#define MSB 2
+#define HBLK_ENDIAN LSB
+
+
 /**
  * struct blockchain_s - Blockchain structure
  *
@@ -107,4 +116,7 @@ void block_destroy(block_t *block);
 void blockchain_destroy(blockchain_t *blockchain);
 uint8_t *block_hash(block_t const *block,
 	uint8_t hash_buf[SHA256_DIGEST_LENGTH]);
+void serialize_blockchain(int fd, int encoding, blockchain_t const *blockchain);
+void serialize_blocks(int fd, llist_t *list);
+int blockchain_serialize(blockchain_t const *blockchain, char const *path);
 #endif /* BLOCKCHAIN_H */
