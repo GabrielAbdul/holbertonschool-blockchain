@@ -19,5 +19,5 @@ tx_in_t *tx_in_create(unspent_tx_out_t const *unspent)
 	memcpy(t->tx_out_hash, &unspent->out.hash, sizeof(t->tx_out_hash));
 	memset(&t->sig, 0, sizeof(t->sig));
 
-	return (tx);
+	return (t);
 }
