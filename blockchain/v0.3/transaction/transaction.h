@@ -90,4 +90,6 @@ transaction_t *transaction_create(EC_KEY const *sender,
 								  llist_t *all_unspent);
 int transaction_is_valid(transaction_t const *transaction,
 						 llist_t *all_unspent);
+int hash_tx_in(llist_node_t node, unsigned int idx, void *arg);
+int hash_tx_out(llist_node_t node, unsigned int idx, void *arg);
 #endif /* TRANSACTION_H */
