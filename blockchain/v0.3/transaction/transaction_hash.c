@@ -1,7 +1,7 @@
 #include "transaction.h"
 
 /**
- * hash_inputs - llist action func to hash inputs
+ * hash_tx_in - llist action func to hash inputs
  * @txn: tx_in_t * struct
  * @i: index of transaction
  * @addr: address to write to
@@ -16,7 +16,7 @@ int hash_tx_in(llist_node_t txn, unsigned int i, void *addr)
 }
 
 /**
- * hash_outputs - llist action func to hash outputs
+ * hash_tx_out - llist action func to hash outputs
  * @txn: tx_out_t * struct
  * @i: index of transaction
  * @addr: pointer to address to write to
