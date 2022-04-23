@@ -128,7 +128,6 @@ int transaction_is_valid(transaction_t const *transaction,
 int hash_tx_in(llist_node_t node, unsigned int idx, void *arg);
 int hash_tx_out(llist_node_t node, unsigned int idx, void *arg);
 int collect_sender_unspent(llist_node_t node, unsigned int idx, void *arg);
-int map_output_to_input(llist_node_t node, unsigned int idx, void *arg);
 transaction_t *transaction_create(EC_KEY const *sender, EC_KEY const *receiver,
 	uint32_t amount, llist_t *all_unspent);
 int tx_out_to_tx_in(llist_node_t node, unsigned int idx, void *arg);

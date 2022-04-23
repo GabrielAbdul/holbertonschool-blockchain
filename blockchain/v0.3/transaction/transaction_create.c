@@ -48,7 +48,7 @@ transaction_t *copy_tx_data(EC_KEY const *sender, visitor_t *visitor,
 		(visitor->total_amount > visitor->amount && !to_sender))
 		return (llist_destroy(tx->inputs, 1, free),
 			llist_destroy(tx->outputs, 1, free), free(tx), NULL);
-	llist_for_each(visitor->sender_unspent, map_output_to_input, tx->inputs);
+	llist_for_each(visitor->sender_unspent, tx_out_to_tx_in, tx->inputs);
 
 	if (llist_add_node(tx->outputs, to_receiver, ADD_NODE_REAR) ||
 		(to_sender && llist_add_node(tx->outputs, to_sender, ADD_NODE_REAR)))
