@@ -75,6 +75,41 @@ typedef struct unspent_tx_out_s
 	tx_out_t    out;
 } unspent_tx_out_t;
 
+/**
+ * struct Visitor - visitor struct for collect sender's unspent
+ * @sender_unspent: list to collect sender's unspent tx
+ * @sender_pub: sender's public key
+ * @total_amount: of unspent tx
+ * @amount: amount to send
+ */
+typedef struct Visitor
+{
+	llist_t *sender_unspent;
+	uint8_t *sender_pub;
+	uint64_t total_amount;
+	uint64_t amount;
+
+} visitor_t;
+
+/**
+ * struct Validation_Visitor - visitor struct for tx validation
+ * @in_amount: total txi amount
+ * @out_amount: total txo amount
+ * @valid: 1 if tx valid else 0
+ * @all_unspent: all unspent txs
+ * @tx: the tx to validate
+ * @block_index: the block index cointaining tx
+ */
+typedef struct Validation_Visitor
+{
+	long in_amount;
+	long out_amount;
+	int valid;
+	llist_t *all_unspent;
+	transaction_t const *tx;
+	uint32_t block_index;
+} validation_vistor_t;
+
 tx_out_t *tx_out_create(uint32_t amount, uint8_t const pub[EC_PUB_LEN]);
 unspent_tx_out_t *unspent_tx_out_create(
 										uint8_t block_hash[SHA256_DIGEST_LENGTH],
@@ -92,4 +127,18 @@ int transaction_is_valid(transaction_t const *transaction,
 						 llist_t *all_unspent);
 int hash_tx_in(llist_node_t node, unsigned int idx, void *arg);
 int hash_tx_out(llist_node_t node, unsigned int idx, void *arg);
+int collect_sender_unspent(llist_node_t node, unsigned int idx, void *arg);
+int map_output_to_input(llist_node_t node, unsigned int idx, void *arg);
+transaction_t *transaction_create(EC_KEY const *sender, EC_KEY const *receiver,
+	uint32_t amount, llist_t *all_unspent);
+int tx_out_to_tx_in(llist_node_t node, unsigned int idx, void *arg);
+transaction_t *copy_tx_data(EC_KEY const *sender, visitor_t *visitor,
+	llist_t *all_unspent, uint8_t *sender_pub, uint8_t *receiver_pub,
+	transaction_t *tx);
+int collect_sender_unspent(llist_node_t node, unsigned int idx, void *arg);
+transaction_t *transaction_create(
+			EC_KEY const *sender,
+			EC_KEY const *receiver,
+			uint32_t amount,
+			llist_t *all_unspent);
 #endif /* TRANSACTION_H */
