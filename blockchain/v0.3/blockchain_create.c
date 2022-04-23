@@ -34,11 +34,9 @@ blockchain_t *blockchain_create(void)
 	block->info.timestamp = TIMESTAMP;
 	block->info.nonce = 0;
 	memset(block->info.prev_hash, 0, sizeof(block->info.prev_hash));
-
 	block->data.len = DATA_LEN;
 	memset(block->data.buffer, 0, sizeof(block->data.buffer));
 	memcpy(block->data.buffer, DATA, block->data.len);
-
 	memset(block->hash, 0, sizeof(HASH));
 	memcpy(block->hash, HASH, sizeof(HASH));
 	if (llist_add_node(blockchain->chain, block, ADD_NODE_FRONT) == -1)
@@ -48,6 +46,6 @@ blockchain_t *blockchain_create(void)
 		free(blockchain);
 		return (NULL);
 	}
-
+	block->transactions = NULL;
 	return (blockchain);
 }
