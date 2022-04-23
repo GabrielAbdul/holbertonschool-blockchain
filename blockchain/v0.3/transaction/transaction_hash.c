@@ -49,8 +49,8 @@ uint8_t *transaction_hash(transaction_t const *transaction,
 	_buf = buf = calloc(1, len);
 	if (!_buf)
 		return (NULL);
-	llist_for_each(transaction->inputs, hash_inputs, &buf);
-	llist_for_each(transaction->outputs, hash_outputs, &buf);
+	llist_for_each(transaction->inputs, hash_tx_in, &buf);
+	llist_for_each(transaction->outputs, hash_tx_out, &buf);
 	if (!sha256((const int8_t *)_buf, len, hash_buf))
 		hash_buf = NULL;
 	free(_buf);
