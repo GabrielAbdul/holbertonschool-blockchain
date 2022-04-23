@@ -23,6 +23,7 @@ block_t *block_create(block_t const *prev,
 		block->info.index = 0;
 		memset(block->info.prev_hash, 0, SHA256_DIGEST_LENGTH);
 	}
+	block->transactions = llist_create(MT_SUPPORT_FALSE);
 	memset(block->hash, 0, sizeof(block->hash));
 
 	return (block);
