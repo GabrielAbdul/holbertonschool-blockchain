@@ -1,51 +1,39 @@
 #include "blockchain.h"
 
+#define GENESIS_TIMESTAMP 1537578000
+#define GENESIS_DATA "Holberton School"
+#define GENESIS_DATA_LEN 16
+#define GENESIS_HASH "\xc5\x2c\x26\xc8\xb5\x46\x16\x39\x63\x5d\x8e\xdf\x2a\x97\xd4\x8d\x0c\x8e\x00\x09\xc8\x17\xf2\xb1\xd3\xd7\xff\x2f\x04\x51\x58\x03"
 
 /**
- * blockchain_create - creates block block of Blockchain
- * Return: newly initialized Blockchain structure
- * TODO ADD COMMENTS, UPDATE FUNCTION DOCS
+ * blockchain_create - creates a genesis blockchain
+ * Return: pointer to new blockchain or NULL on error
  */
 blockchain_t *blockchain_create(void)
 {
-	block_t *block;
-	blockchain_t *blockchain = calloc(1, sizeof(blockchain_t));
+	blockchain_t *chain = calloc(1, sizeof(*chain));
+	block_t *block = calloc(1, sizeof(*block));
+	llist_t *list = llist_create(MT_SUPPORT_TRUE);
+	llist_t *unspent = llist_create(MT_SUPPORT_TRUE);
 
-	block = calloc(1, sizeof(block_t));
-
-	if (block == NULL || blockchain == NULL)
+	if (!chain || !block || !list || !unspent)
 	{
-		free(block);
-		free(blockchain);
+		free(chain), free(block), llist_destroy(list, 1, NULL);
+		llist_destroy(unspent, 1, NULL);
 		return (NULL);
 	}
 
-	blockchain->chain = llist_create(MT_SUPPORT_FALSE);
+	block->info.timestamp = GENESIS_TIMESTAMP;
+	memcpy(&(block->data.buffer), GENESIS_DATA, GENESIS_DATA_LEN);
+	block->data.len = GENESIS_DATA_LEN;
+	memcpy(&(block->hash), GENESIS_HASH, SHA256_DIGEST_LENGTH);
 
-	if (blockchain->chain == NULL)
+	if (llist_add_node(list, block, ADD_NODE_FRONT))
 	{
-		free(blockchain);
-		free(block);
+		free(chain), free(block), llist_destroy(list, 1, NULL);
 		return (NULL);
 	}
-
-	block->info.index = 0;
-	block->info.difficulty = 0;
-	block->info.timestamp = TIMESTAMP;
-	block->info.nonce = 0;
-	memset(block->info.prev_hash, 0, sizeof(block->info.prev_hash));
-	block->data.len = DATA_LEN;
-	memset(block->data.buffer, 0, sizeof(block->data.buffer));
-	memcpy(block->data.buffer, DATA, block->data.len);
-	memset(block->hash, 0, sizeof(HASH));
-	memcpy(block->hash, HASH, sizeof(HASH));
-	if (llist_add_node(blockchain->chain, block, ADD_NODE_FRONT) == -1)
-	{
-		llist_destroy(blockchain->chain, KEEP_NODES, NULL);
-		free(block);
-		free(blockchain);
-		return (NULL);
-	}
-	block->transactions = NULL;
-	return (blockchain);
+	chain->chain = list;
+	chain->unspent = unspent;
+	return (chain);
 }
