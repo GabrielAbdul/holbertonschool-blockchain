@@ -28,6 +28,10 @@
 #include "provided/endianness.h"
 #include "transaction/transaction.h"
 
+#define HBLK_MAGIC "HBLK"
+#define HBLK_VERSION "0.3"
+
+#define COINBASE_AMOUNT 50
 #define HASH \
 "\
 \xc5\x2c\x26\xc8\xb5\x46\x16\x39\
