@@ -22,6 +22,7 @@
 #include <openssl/sha.h>
 
 #include <fcntl.h>
+#include <unistd.h>
 
 #include "../../crypto/hblk_crypto.h"
 #include "provided/endianness.h"
