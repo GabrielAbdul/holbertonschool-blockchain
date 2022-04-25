@@ -1,67 +1,67 @@
 #include "blockchain.h"
 
 /**
- * blockchain_serialize -  serializes a Blockchain into a file
- * @blockchain: points to blockchain to be serialized
- * @path: contains the path to a file to serialize blockchain into
- *        if path points to an existing file, it must be overwritten
- * Return: 0 on succes, -1 failure
- */
-int blockchain_serialize(blockchain_t const *blockchain, char const *path)
+ * spwrite - writes an attribute into a file in the proper endian
+ * @fd: file descriptor
+ * @endianess: file endian
+ * @attr: attribute to write
+ * @size: size of attribute
+ **/
+static void spwrite(int fd, int endianess, void *attr, size_t size)
 {
-	int fd;
-	uint8_t encoding = _get_endianness();
-
-	if (blockchain == NULL || path == NULL)
-		return (-1);
-
-	fd = open(path, O_WRONLY | O_CREAT, 0644);
-	if (fd == -1)
-		return (-1);
-
-	serialize_blockchain(fd, encoding, blockchain);
-	serialize_blocks(fd, blockchain->chain);
-	close(fd);
-	return (0);
+	if (!endianess)
+		_swap_endian((uint8_t *)attr, size);
+	write(fd, attr, size);
 }
 
 /**
- * serialize_blockchain - serializes a Blockchain into a file
+ * block_content - serializes blocks
  * @fd: file descriptor
- * @encoding: encoding
- * @blockchain: chain of blocks
+ * @endian: file endianess
+ * @list: list of blocks
  **/
-void serialize_blockchain(int fd, int encoding, blockchain_t const *blockchain)
+static void block_content(int fd, int endian, llist_t *list)
 {
-	int blocks;
-
-	blocks = llist_size(blockchain->chain);
-	write(fd, HBLK_MAGIC, sizeof(HBLK_MAGIC) - 1);
-	write(fd, HBLK_VERSION, sizeof(HBLK_VERSION) - 1);
-	write(fd, &encoding,  sizeof(encoding));
-	write(fd, &blocks,  sizeof(blocks));
-}
-
-/**
- * serialize_blocks - serializes blocks
- * @fd: file descriptor
- * @chain: chain of blocks
- **/
-void serialize_blocks(int fd, llist_t *chain)
-{
+	block_t *block;
 	int i;
 
-	for (i = 0; i < llist_size(chain); i++)
+	for (i = 0; i < llist_size(list); i++)
 	{
-		block_t *block = llist_get_node_at(chain, i);
-
-		write(fd, &block->info.index, sizeof(block->info.index));
-		write(fd, &block->info.difficulty, sizeof(block->info.difficulty));
-		write(fd, &block->info.timestamp, sizeof(block->info.timestamp));
-		write(fd, &block->info.nonce, sizeof(block->info.nonce));
-		write(fd, block->info.prev_hash, sizeof(block->info.prev_hash));
-		write(fd, &block->data.len, sizeof(block->data.len));
-		write(fd, block->data.buffer, block->data.len);
-		write(fd, block->hash, sizeof(block->hash));
+		block = llist_get_node_at(list, i);
+		spwrite(fd, endian, &block->info.index,      sizeof(block->info.index));
+		spwrite(fd, endian, &block->info.difficulty, sizeof(block->info.difficulty));
+		spwrite(fd, endian, &block->info.timestamp,  sizeof(block->info.timestamp));
+		spwrite(fd, endian, &block->info.nonce,      sizeof(block->info.nonce));
+		spwrite(fd, endian, block->info.prev_hash,   sizeof(block->info.prev_hash));
+		spwrite(fd, endian, &block->data.len,        sizeof(block->data.len));
+		spwrite(fd, endian, block->data.buffer,      block->data.len);
+		spwrite(fd, endian, block->hash,             sizeof(block->hash));
 	}
+}
+
+/**
+ * blockchain_serialize - serializes a Blockchain into a file
+ * @blockchain: points to the Blockchain to be serialized,
+ * @path: contains the path to a file to serialize the Blockchain into
+ *            * If path points to an existing file, it must be overwritten
+ * Return: 0 upon success, or -1 upon failure
+ **/
+int blockchain_serialize(blockchain_t const *blockchain, char const *path)
+{
+	int fd, num_blocks;
+	uint8_t endiannes = _get_endianness();
+
+	if (!blockchain || !path)
+		return (-1);
+	fd = open(path, O_CREAT | O_WRONLY, 0644);
+	if (fd == -1)
+		return (-1);
+	num_blocks = llist_size(blockchain->chain);
+	write(fd, HBLK_MAGIC,   strlen(HBLK_MAGIC));
+	write(fd, HBLK_VERSION, strlen(HBLK_VERSION));
+	write(fd, &endiannes,  sizeof(endiannes));
+	write(fd, &num_blocks,  sizeof(num_blocks));
+	block_content(fd, endiannes, blockchain->chain);
+	close(fd);
+	return (0);
 }
