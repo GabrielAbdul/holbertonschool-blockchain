@@ -43,6 +43,8 @@
 #define EXPECTED_TIME_BETWEEN_ADJUSTMENTS \
 (BLOCK_GENERATION_INTERVAL * DIFFICULTY_ADJUSTMENT_INTERVAL)
 
+#define MIN(x, y) ((x) < (y) ? (x) : (y))
+
 /**
  * struct blockchain_s - Blockchain structure
  *
@@ -112,6 +114,8 @@ typedef struct block_s
     llist_t     *transactions;
     uint8_t     hash[SHA256_DIGEST_LENGTH];
 } block_t;
+
+
 
 blockchain_t *blockchain_create(void);
 block_t *block_create(block_t const *prev,
