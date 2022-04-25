@@ -154,4 +154,5 @@ uint32_t blockchain_difficulty(blockchain_t const *blockchain);
 int validate_tx(llist_node_t node, unsigned int idx, void *arg);
 int block_is_valid(block_t const *block, block_t const *prev_block,
 	llist_t *all_unspent);
+int blockchain_serialize(blockchain_t const *blockchain, char const *path);
 #endif /* BLOCKCHAIN_H */
